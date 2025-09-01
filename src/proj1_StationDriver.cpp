@@ -47,11 +47,13 @@ bool canMarshallCoaches(const int *array, int size) {
 
 int main() {
 
-  std::string filePath = "tests/lab1in.txt";
-  std::ifstream fileIn(filePath);
+  std::string filePathIn = "tests/lab1in.txt";
+  std::string filePathOut = "tests/lab1out.txt";
+  std::ifstream fileIn(filePathIn);
+  std::ofstream fileOut(filePathOut);
 
   if (!fileIn.is_open()) {
-    std::cerr << "Error: Could not open the file at " << filePath << std::endl;
+    std::cerr << "Error: Could not open the file at " << filePathIn << std::endl;
     return 1;
   }
 
@@ -67,6 +69,7 @@ int main() {
     fileIn >> nextInt; // move to the next string i.e. peeking.
 
     if(N == 0 || nextInt == 0) {
+      fileOut << '\n';
       break;
     } else {
       fileIn.seekg(currentPosition); // Restoring the pointer to the position of currentPosition.
@@ -75,10 +78,15 @@ int main() {
     for(int i = 0; i < N; i++) {
       fileIn >> coachArragnement[i];
     }
-    std::cout << '\n' << canMarshallCoaches(coachArragnement, N) << '\n';
+    if (canMarshallCoaches(coachArragnement, N)) {
+      fileOut << "yes\n";
+    } else {
+      fileOut << "No\n";
+    }
   }
 
   fileIn.close();
+  fileOut.close();
 
   return 0;
 }
