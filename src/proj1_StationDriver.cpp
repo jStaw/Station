@@ -36,12 +36,16 @@ bool canMarshallCoaches(const int *array, int size) {
   int cnt = 0;
 
   for(int i = 0; i < size; i++) {
-    stationStack.push(i + 1);
+    stationStack.push(i + 1); 
+    // check if the stack is not empty and if the top element matches the current position 
+    // of the permutaiton array passed in. Cnt will keep track of the index of that array.
+    // It will pop the top element if both conditions are met and the cnt counter will be incremented.
     while(!stationStack.empty() && stationStack.top() == *(array + cnt)) {
       stationStack.pop();
       cnt++;
     }
   }
+  // empty stack means the coaches can be marshalled.
   return stationStack.empty();
 }
 
@@ -68,16 +72,20 @@ int main() {
     std::streampos currentPosition = fileIn.tellg(); // stores current position in file. Allows to peek to the next string.
     fileIn >> nextInt; // move to the next string i.e. peeking.
 
+    // Will break the loop if a 0 is located.
     if(N == 0 || nextInt == 0) {
       fileOut << '\n';
       break;
     } else {
       fileIn.seekg(currentPosition); // Restoring the pointer to the position of currentPosition.
     }  
-
+    
+    // load content of file into an array that keeps the order of the permutation of the coaches.
     for(int i = 0; i < N; i++) {
       fileIn >> coachArragnement[i];
     }
+
+    // This will update the output of each train viability
     if (canMarshallCoaches(coachArragnement, N)) {
       fileOut << "yes\n";
     } else {
